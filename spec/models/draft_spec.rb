@@ -317,6 +317,7 @@ describe Draftsman::Draft do
           it 'has an `object`' do
             expect(trashable.draft.object).to be_present
           end
+
         end
       end
 

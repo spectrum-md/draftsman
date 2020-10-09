@@ -251,7 +251,7 @@ module Draftsman
               self.restore_attributes
               fk = "#{self.class.draft_association_name}_id"
               id = send(self.class.draft_association_name).id
-              self.update(fk, id)
+              self.update_attribute(fk, id)
             else
               raise ActiveRecord::Rollback and return false
             end

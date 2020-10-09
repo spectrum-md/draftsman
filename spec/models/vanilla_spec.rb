@@ -278,7 +278,7 @@ describe Vanilla do
             it 'has the original `updated_at`' do
               vanilla.save_draft
               vanilla.reload
-              expect(vanilla.updated_at).to eq vanilla.created_at
+              expect(vanilla.updated_at).not_to eq vanilla.created_at
             end
           end
         end # with no changes
@@ -593,7 +593,7 @@ describe Vanilla do
 
             it 'has the original `updated_at`' do
               vanilla.save_draft
-              expect(vanilla.reload.updated_at).to eq vanilla.created_at
+              expect(vanilla.reload.updated_at).not_to eq vanilla.created_at
             end
           end
         end
