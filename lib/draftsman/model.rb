@@ -248,9 +248,10 @@ module Draftsman
             send("build_#{self.class.draft_association_name}", data)
 
             if send(self.class.draft_association_name).save
+              self.restore_attributes
               fk = "#{self.class.draft_association_name}_id"
               id = send(self.class.draft_association_name).id
-              self.update_column(fk, id)
+              self.update(fk, id)
             else
               raise ActiveRecord::Rollback and return false
             end
