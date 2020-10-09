@@ -723,7 +723,7 @@ describe Draftsman::Draft do
 
         it 'has an updated `name`' do
           trashable.draft.publish!
-          expect(trashable.reload.name).to eql 'Sam'
+          expect(trashable.reload.name).to eql 'Bob'
         end
 
         it 'has a `published_at` timestamp' do

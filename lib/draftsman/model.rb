@@ -372,7 +372,8 @@ module Draftsman
                   send("build_#{self.class.draft_association_name}", data)
 
                   if send(self.class.draft_association_name).save
-                    update_column("#{self.class.draft_association_name}_id", send(self.class.draft_association_name).id)
+                    self.restore_attributes
+                    update_attribute("#{self.class.draft_association_name}_id", send(self.class.draft_association_name).id)
 
                     if Draftsman.stash_drafted_changes?
                       update_skipped_attributes
