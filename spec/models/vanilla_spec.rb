@@ -669,39 +669,30 @@ describe Vanilla do
               expect(vanilla).to be_persisted
             end
 
-            it 'is a draft' do
+            it 'is not a draft' do
               vanilla.save_draft
-              expect(vanilla.draft?).to eql true
+              puts "!!!!!!ATTRIBUTES: #{vanilla.reload.attributes}!!!!!!!!"
+              expect(vanilla.draft?).to eql false
             end
 
-            it 'has a `draft_id`' do
+            it 'does not have a `draft_id`' do
               vanilla.save_draft
               vanilla.reload
               expect(vanilla.draft_id).to eql nil
             end
 
-            it 'has a `draft`' do
+            it 'does not have a `draft`' do
               vanilla.save_draft
               expect(vanilla.draft).to eql nil
             end
 
-            it 'has an `update` draft' do
-              vanilla.save_draft
-              expect(vanilla.draft.update?).to eql true
-            end
-
             it 'has the original `name`' do
               vanilla.save_draft
-              expect(vanilla.reload.name).to eql 'Sam'
+              expect(vanilla.reload.name).to eql 'Bob'
             end
 
             it "doesn't change the number of drafts" do
-              expect { vanilla.save_draft }.to_not change(Draftsman::Draft.where(id: vanilla.draft_id), :count)
-            end
-
-            it "does not update the draft's `name`" do
-              vanilla.save_draft
-              expect(vanilla.draft.reify.name).to eql 'Sam'
+              expect { vanilla.save_draft }.to change(Draftsman::Draft.where(id: vanilla.draft_id), :count)
             end
 
             it 'does not update `updated_at`' do

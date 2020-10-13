@@ -164,6 +164,7 @@ describe Draftsman::Draft do
       context 'updating the update' do
         before do
           trashable.title = nil
+          trashable.name = 'Sam'
           trashable.save_draft
           trashable.reload
         end
@@ -325,8 +326,9 @@ describe Draftsman::Draft do
         before do
           trashable.save!
           trashable.name = 'Sam'
-          trashable.title = 'My Title'
+          trashable.title = 'My title'
           trashable.save_draft
+          trashable.reload
         end
 
         it 'has an `object`' do
@@ -335,7 +337,8 @@ describe Draftsman::Draft do
 
         context 'updating the update' do
           before do
-            trashable.title = nil
+            trashable.title = 'My title'
+            trashable.name = 'Sam'
             trashable.save_draft
           end
 
@@ -409,12 +412,12 @@ describe Draftsman::Draft do
 
         context 'updating the update' do
           before do
-            trashable.title = nil
+            trashable.title = 'New Title'
             trashable.save_draft
           end
 
           it 'has no `object`' do
-            expect(trashable.draft.object).to be_nil
+            expect(trashable.reload.draft.object).to be_nil
           end
         end
       end
@@ -1150,7 +1153,8 @@ describe Draftsman::Draft do
 
       context 'updating the update' do
         before do
-          trashable.title = nil
+          trashable.title = 'New Title'
+          trashable.name = 'Sam'
           trashable.save_draft
           trashable.reload
         end
@@ -1160,7 +1164,7 @@ describe Draftsman::Draft do
         end
 
         it 'has the updated `title`' do
-          expect(trashable.draft.reify.title).to be_nil
+          expect(trashable.draft.reify.title).to eql 'New Title'
         end
       end
     end
