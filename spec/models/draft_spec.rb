@@ -56,10 +56,6 @@ describe Draftsman::Draft do
         expect(trashable.draft.destroy?).to eql false
       end
 
-      it 'has an `id` in the `changeset`' do
-        expect(trashable.draft.changeset).to include :id
-      end
-
       it 'has a `name` in the `changeset`' do
         expect(trashable.draft.changeset).to include :name
       end
@@ -100,10 +96,6 @@ describe Draftsman::Draft do
 
         it 'is a `update` event' do
           expect(trashable.draft.event).to eql 'update'
-        end
-
-        it 'has an `id` in the `changeset`' do
-          expect(trashable.draft.changeset).to include :id
         end
 
         it 'has a `name` in the `changeset`' do
@@ -286,10 +278,6 @@ describe Draftsman::Draft do
 
         it 'is a `destroy` event' do
           expect(trashable.draft.event).to eql 'destroy'
-        end
-
-        it 'has an `id` in the `changeset`' do
-          expect(trashable.draft.changeset).to include :id
         end
 
         it 'has a `name` in the `changeset`' do

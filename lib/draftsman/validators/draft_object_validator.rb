@@ -3,6 +3,8 @@ module Draftsman
     class DraftObjectValidator < ActiveModel::Validator
 
       def validate(record)
+        return if record.object.nil?
+        
         obj = Draftsman.serializer.load(record.object)
         skipped_attributes = record.item.draftsman_options[:skip]
         if !(obj.keys & skipped_attributes).empty?
