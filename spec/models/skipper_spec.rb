@@ -42,6 +42,10 @@ RSpec.describe Skipper, type: :model do
         expect(subject.draft).to be_present
       end
 
+      it 'draft object does not have id' do
+        expect(subject.draft.object['id']).to_not be_present
+      end
+
       it 'has a `create` draft' do
         expect(subject.draft.create?).to eql true
       end
