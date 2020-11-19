@@ -83,6 +83,10 @@ module Draftsman
 
         draftsman_options[:ignore] << "#{self.draft_association_name}_id"
 
+        draftsman_options[:skip] << "#{self.draft_association_name}_id"
+
+        draftsman_options[:skip] << "id"
+
         draftsman_options[:meta] ||= {}
 
         draftsman_options[:publish_options] ||= { validate: false }

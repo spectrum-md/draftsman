@@ -9,7 +9,7 @@ module Draftsman
     def initialize
       @timestamp_field = :created_at
       @mutex = Mutex.new
-      @serializer = Draftsman::Serializers::Yaml
+      @serializer = Draftsman::Serializers::Json
       @enabled = true
       @whodunnit_field = :whodunnit
       @stash_drafted_changes = true

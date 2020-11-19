@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Draftsman::Draft do
   let(:trashable) { Trashable.new(name: 'Bob') }
+  let(:skipper) { Skipper.new(name: 'Bob', skip_me: 'Skipped 1') }
 
   describe '.object_col_is_json?' do
     it 'does not have a JSON object column' do
@@ -18,6 +19,20 @@ describe Draftsman::Draft do
   describe '.previous_draft_col_is_json?' do
     it 'does not have a JSON previous_draft column' do
       expect(Draftsman::Draft.previous_draft_col_is_json?).to eql false
+    end
+  end
+
+  describe 'Validations' do
+    before { skipper.save_draft }
+
+    it "Draft created by save_draft is valid" do
+      expect(skipper.draft.valid?).to eql true
+    end
+
+    it 'Draft is not valid if object contains values in the skipped attributes' do
+      draft = skipper.draft
+      draft.object = skipper.attributes.to_json
+      expect(draft.valid?).to eql false
     end
   end
 
@@ -39,10 +54,6 @@ describe Draftsman::Draft do
 
       it 'does not identify as a `destroy` event' do
         expect(trashable.draft.destroy?).to eql false
-      end
-
-      it 'has an `id` in the `changeset`' do
-        expect(trashable.draft.changeset).to include :id
       end
 
       it 'has a `name` in the `changeset`' do
@@ -85,10 +96,6 @@ describe Draftsman::Draft do
 
         it 'is a `update` event' do
           expect(trashable.draft.event).to eql 'update'
-        end
-
-        it 'has an `id` in the `changeset`' do
-          expect(trashable.draft.changeset).to include :id
         end
 
         it 'has a `name` in the `changeset`' do
@@ -271,10 +278,6 @@ describe Draftsman::Draft do
 
         it 'is a `destroy` event' do
           expect(trashable.draft.event).to eql 'destroy'
-        end
-
-        it 'has an `id` in the `changeset`' do
-          expect(trashable.draft.changeset).to include :id
         end
 
         it 'has a `name` in the `changeset`' do
