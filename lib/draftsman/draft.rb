@@ -180,7 +180,7 @@ class Draftsman::Draft < ActiveRecord::Base
         self.draft_publication_dependencies.each { |dependency| dependency.publish! }
 
         # Update drafts need to copy over data to main record
-        self.item.attributes = self.reify.attributes if Draftsman.stash_drafted_changes? && self.update?
+        self.item.attributes = self.reify.attributes.except!('notes') if Draftsman.stash_drafted_changes? && self.update?
 
         # Write `published_at` attribute
         self.item.send("#{self.item.class.published_at_attribute_name}=", current_time_from_proper_timezone)
