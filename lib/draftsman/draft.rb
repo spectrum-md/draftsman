@@ -238,7 +238,7 @@ class Draftsman::Draft < ActiveRecord::Base
 
         attrs.each do |key, value|
           # Skip counter_cache columns
-          if self.item.respond_to?("#{key}=") && !key.end_with?('_count')
+          if (self.item.respond_to?("#{key}=") && !key.end_with?('_count')) || key == 'notes'
             self.item.send("#{key}=", value)
           elsif !key.end_with?('_count')
             logger.warn("Attribute #{key} does not exist on #{self.item_type} (Draft ID: #{self.id}).")
