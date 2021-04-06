@@ -180,7 +180,7 @@ class Draftsman::Draft < ActiveRecord::Base
         # self.draft_publication_dependencies.each { |dependency| dependency.publish! }
 
         # Update drafts need to copy over data to main record
-        self.item.attributes = self.reify.attributes.except!('notes') if Draftsman.stash_drafted_changes? && self.update?
+        self.item.attributes = self.reify.attributes if Draftsman.stash_drafted_changes? && self.update?
 
         # Write `published_at` attribute
         self.item.send("#{self.item.class.published_at_attribute_name}=", current_time_from_proper_timezone)
@@ -237,9 +237,6 @@ class Draftsman::Draft < ActiveRecord::Base
         self.item.class.unserialize_attributes_for_draftsman(attrs)
 
         attrs.each do |key, value|
-          # Skip counter_cache columns
-          next if key.include?('notes')
-
           if self.item.respond_to?("#{key}=") && !key.end_with?('_count')
             self.item.send("#{key}=", value)
           elsif !key.end_with?('_count')
