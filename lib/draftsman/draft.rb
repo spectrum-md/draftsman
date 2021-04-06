@@ -177,7 +177,7 @@ class Draftsman::Draft < ActiveRecord::Base
       case self.event.to_sym
       when :create, :update
         # Parents must be published too
-        self.draft_publication_dependencies.each { |dependency| dependency.publish! }
+        # self.draft_publication_dependencies.each { |dependency| dependency.publish! }
 
         # Update drafts need to copy over data to main record
         self.item.attributes = self.reify.attributes.except!('notes') if Draftsman.stash_drafted_changes? && self.update?
